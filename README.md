@@ -25,8 +25,7 @@ Follow these steps to set up backend locally:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/your-repository.git
-   cd your-repository 
+   git clone https://github.com/asadDev29/Subscription-management.git 
 2. **Create a virtual environment:**
     python3 -m venv venv
     source venv/bin/activate
