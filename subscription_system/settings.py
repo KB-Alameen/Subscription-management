@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--__l1s7oi##m$$h=28fs0rlmnagy3d7c0%0etzewyzpo#q(gma'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure--__l1s7oi##m$$h=28fs0rlmnagy3d7c0%0etzewyzpo#q(gma')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['*']
 
@@ -43,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.sites', 
     'django_extensions',
     'corsheaders',
-
 ]
 
 MIDDLEWARE = [
@@ -62,7 +63,7 @@ ROOT_URLCONF = 'subscription_system.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # Added a templates directory
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,6 +125,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Added to serve static files in development
+
+# Media files (if you have uploads)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -149,12 +156,17 @@ SIMPLE_JWT = {
 
 # Email settings for password reset
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# CORS Settings
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000"
 ]
 
 CORS_ALLOW_HEADERS = ['*']
-
-
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False
+
+
+# Django Extensions Settings
+# https://django-extensions.readthedocs.io/en/latest/
+SHELL_PLUS = "ipython"  # Optional: Use IPython shell
