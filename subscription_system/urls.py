@@ -18,6 +18,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('your_app_name.urls')),  # Replace `your_app_name` with the name of your app folder
+    path('', include('subscriptions.urls')), 
     path('admin/', admin.site.urls),
 ]
